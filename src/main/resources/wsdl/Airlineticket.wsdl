@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:emp="http://www.airlinesystem.com/Airlineticket/" 
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+ name="Airlineticket" 
+ targetNamespace="http://www.airlinesystem.com/Airlineticket/">
+ 
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.airlinesystem.com/Airlineticket/">
+    
+    
+     
+     
+      <xsd:element name="GetTicket">
+        <xsd:complexType>
+        	<xsd:sequence>
+        		<xsd:element name="ticket" type="emp:Ticket"></xsd:element>
+        	</xsd:sequence>
+        </xsd:complexType>
+        
+        
+        
+      </xsd:element>
+      <xsd:element name="GetTicketResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+      			<xsd:element name="airline" type="xsd:string"></xsd:element>
+      			<xsd:element name="departureCity" type="xsd:string"></xsd:element>
+      			<xsd:element name="arrivalCity" type="xsd:string"></xsd:element>
+      			<xsd:element name="departureDate" type="xsd:string"></xsd:element>
+      			<xsd:element name="retunDate" type="xsd:string"></xsd:element>
+      			<xsd:element name="numberOfPassangers"
+      				type="xsd:int">
+      			</xsd:element>
+      			<xsd:element name="Passangers" type="xsd:int"></xsd:element>
+      			<xsd:element name="ConnectingCity"
+      				type="xsd:string">
+      			</xsd:element>
+      			<xsd:element name="flightType" type="xsd:string"></xsd:element>
+      			<xsd:element name="time" type="xsd:string"></xsd:element>
+      		</xsd:sequence>
+      		<xsd:attribute name="id" type="xsd:int"></xsd:attribute>
+      	</xsd:complexType>
+      </xsd:element>
+      
+      
+      
+    
+      <xsd:complexType name="Ticket">
+      	<xsd:sequence>
+      		<xsd:element name="airline" type="xsd:string"
+      			maxOccurs="1" minOccurs="1">
+      		</xsd:element>
+      		<xsd:element name="departureCity" type="xsd:string"
+      			maxOccurs="1" minOccurs="1">
+      		</xsd:element>
+      		<xsd:element name="arrivalCity" type="xsd:string"
+      			maxOccurs="1" minOccurs="1">
+      		</xsd:element>
+      		<xsd:element name="departureDate" type="xsd:string"
+      			maxOccurs="1" minOccurs="0">
+      		</xsd:element>
+      		<xsd:element name="returnDate" type="xsd:string"
+      			maxOccurs="1" minOccurs="0">
+      		</xsd:element>
+      		<xsd:element name="numberOfPassanger" type="xsd:int"
+      			maxOccurs="unbounded" minOccurs="1">
+      		</xsd:element>
+      		<xsd:element name="Passanger" type="emp:PassangerType"></xsd:element>
+      		<xsd:element name="connectingCity" type="xsd:string"></xsd:element>
+      		<xsd:element name="flightType" type="emp:FlightType"></xsd:element>
+      		<xsd:element name="time" type="xsd:string"></xsd:element>
+      	</xsd:sequence>
+      	<xsd:attribute name="id" type="emp:ID"></xsd:attribute>
+      </xsd:complexType>
+
+    
+    
+
+
+
+
+
+      <xsd:simpleType name="ID">
+      	<xsd:restriction base="xsd:int">
+      		<xsd:pattern value="[0-9]*"></xsd:pattern>
+      	</xsd:restriction>
+      </xsd:simpleType>
+
+
+    
+      <xsd:complexType name="PassangerType">
+      	<xsd:all>
+      		<xsd:element name="adult">
+      			<xsd:simpleType>
+      				<xsd:restriction base="emp:Adult">
+      					<xsd:pattern value="[0-6]"></xsd:pattern>
+      				</xsd:restriction>
+      			</xsd:simpleType>
+      		</xsd:element>
+      		<xsd:element name="children">
+      			<xsd:simpleType>
+      				<xsd:restriction base="emp:Children">
+      					<xsd:pattern value="[0-6]"></xsd:pattern>
+      				</xsd:restriction>
+      			</xsd:simpleType>
+      		</xsd:element>
+      	</xsd:all>
+      </xsd:complexType>
+    
+      <xsd:simpleType name="Adult">
+      	<xsd:restriction base="xsd:string"></xsd:restriction>
+      </xsd:simpleType>
+    
+      <xsd:simpleType name="Children">
+      	<xsd:restriction base="xsd:string"></xsd:restriction>
+      </xsd:simpleType>
+    
+      <xsd:simpleType name="FlightType">
+      	<xsd:restriction base="xsd:string">
+      		<xsd:enumeration value="Non-stop"></xsd:enumeration>
+      		<xsd:enumeration value="1-stop"></xsd:enumeration>
+      		<xsd:enumeration value="Any"></xsd:enumeration>
+      	</xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+  </wsdl:types>
+  
+  
+  <wsdl:message name="GetTicketRequest">
+    <wsdl:part element="emp:GetTicket" name="parameters"/>
+  </wsdl:message>
+  
+  
+  <wsdl:message name="GetTicketResponse">
+    <wsdl:part element="emp:GetTicketResponse" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="Airlineticket">
+    <wsdl:operation name="GetTicket">
+      <wsdl:input message="emp:GetTicketRequest"/>
+      <wsdl:output message="emp:GetTicketResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  
+  <wsdl:binding name="AirlineticketSOAP" type="emp:Airlineticket">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetTicket">
+      <soap:operation soapAction="http://www.airlinesystem.com/Airlineticket/GetTicket"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Airlineticket">
+    <wsdl:port binding="emp:AirlineticketSOAP" name="AirlineticketSOAP">
+      <soap:address location="http://localhost:8080/airlinewsdl/Airlineticket"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
